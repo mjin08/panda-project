@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Panda Diplomacy Global Tracker — An interactive museum exhibit tracking China's giant panda loans across the world." />
+
+  <title>Panda Diplomacy Global Tracker</title>
+
+  <!-- Favicon (placeholder — replace with panda icon in later phase) -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐾</text></svg>" />
+
+  <!-- Tailwind CSS v3 CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Custom Museum Styles -->
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="min-h-screen">
+
+  <!-- ============================================
+       SITE HEADER — Museum Entrance Marquee
+       ============================================ -->
+  <header class="site-header" role="banner">
+    <h1 class="site-header__title">Panda Diplomacy Global Tracker</h1>
+    <p class="site-header__subtitle">An Interactive Exhibit of China's Giant Panda Loans &amp; Diplomatic Legacy</p>
+  </header>
+
+  <!-- ============================================
+       EXHIBIT BANNER — Curatorial Introduction
+       ============================================ -->
+  <section class="exhibit-banner" aria-label="Exhibit introduction">
+    <h2 class="exhibit-banner__title">The Bamboo Diplomacy Archive</h2>
+    <p class="exhibit-banner__tagline">From Cold War Gifts to Conservation Leases — Every Panda Loan, Every Nation, Every Era</p>
+  </section>
+
+  <!-- ============================================
+       MAIN LAYOUT GRID
+       Sidebar | Map + Timeline
+       ============================================ -->
+  <div class="main-grid">
+
+    <!-- -------- SIDEBAR: Navigation & Filters -------- -->
+    <aside class="sidebar" role="complementary" aria-label="Exhibit navigation">
+      <h3 class="sidebar__section-title">Exhibit Index</h3>
+      <div class="sidebar__placeholder">
+        Era Navigator — Phase 2
+      </div>
+
+      <h3 class="sidebar__section-title">Country Index</h3>
+      <div class="sidebar__placeholder">
+        Country List — Phase 3
+      </div>
+
+      <h3 class="sidebar__section-title">Recall Categories</h3>
+      <div class="sidebar__placeholder">
+        Filter Panel — Phase 4
+      </div>
+    </aside>
+
+    <!-- -------- MAP CONTAINER: Leaflet World Map -------- -->
+    <main class="map-container" role="main" aria-label="Interactive panda diplomacy world map">
+      <div class="map-container__placeholder">
+        <div class="map-container__placeholder-icon">🌏</div>
+        <p class="map-container__placeholder-text">Interactive World Map</p>
+        <p class="map-container__placeholder-sub">Leaflet map with country hotspots — arriving Phase 3</p>
+      </div>
+    </main>
+
+    <!-- -------- TIMELINE CONTAINER: Embedded Timeline -------- -->
+    <section class="timeline-container" aria-label="Panda diplomacy historical timeline">
+      <div class="timeline-container__placeholder">
+        <p class="timeline-container__placeholder-text">Historical Timeline</p>
+        <p class="timeline-container__placeholder-sub">Interactive era timeline — arriving Phase 2</p>
+      </div>
+    </section>
+
+  </div><!-- /.main-grid -->
+
+  <!-- ============================================
+       FACT BUBBLE: Vintage Museum Info Popup
+       ============================================ -->
+  <div id="fact-bubble" class="fact-bubble" role="complementary" aria-label="Did you know fact bubble">
+    <button class="fact-bubble__close" aria-label="Close fact bubble">&times;</button>
+    <p class="fact-bubble__label">Did You Know?</p>
+    <p class="fact-bubble__text">
+      Between 1957 and 1982, China gifted 24 giant pandas to 9 countries as symbols of diplomatic friendship — a practice that ended when China shifted to conservation-based loans.
+    </p>
+  </div>
+
+  <!-- ============================================
+       SITE FOOTER: Museum Credit Placard
+       ============================================ -->
+  <footer class="site-footer" role="contentinfo">
+    <p class="site-footer__text">
+      Panda Diplomacy Global Tracker &mdash; A Digital Museum Exhibit &bull; Research &amp; Design &copy; 2026 &bull; Phase 1 Skeleton
+    </p>
+  </footer>
+
+  <!-- ============================================
+       SCRIPTS (CDN libraries load before main.js)
+       Phase 2+: Leaflet, Chart.js CDN <script> tags
+       will be inserted here.
+       ============================================ -->
+  <script src="js/main.js"></script>
+
+</body>
+</html>
