@@ -1,4 +1,4 @@
-# Phase 1 Module README — Structural Skeleton
+# Phase 1 Module README — Full-Stack Skeleton
 
 **Phase:** 1 of N
 **Status:** Complete ✅
@@ -8,103 +8,148 @@
 
 ## Phase 1 Purpose
 
-Build the **empty museum-style base page shell** — the structural foundation upon which every future phase layers interactive content. No maps, no data, no timelines, no facts are rendered yet. This phase verifies:
+Build the **full-stack structural skeleton** — the foundation upon which every future phase layers interactive content. This phase delivers:
 
-- Folder structure is correct and navigable
-- Museum visual identity (palette, typography, layout) is established
-- Grid layout (sidebar + main content area) renders correctly
-- Placeholder containers exist for every major component
-- Fact bubble UI mechanism works (show/close animation)
-- The site opens from a local file with zero server installs
+- Complete Express MVC backend with REST API endpoints
+- SQLite relational database with schema, constraints, and seeded data (9 countries, 12 programs)
+- Vue 3 SPA frontend with 7 reusable components, Tailwind museum styling, and API service layer
+- Zero data visualization yet — placeholders only — but the data pipeline (DB → Model → Controller → Route → API → Vue service → Component) is fully wired
 
 ---
 
-## Architecture Breakdown
+## Architecture Decisions & CS Skill Showcase
 
-### File Tree
+### 1. MVC Pattern (server/)
 
-```
-panda-project/
-├── index.html              ← Entry point. Museum shell: header, sidebar, map placeholder, timeline placeholder, fact bubble, footer
-├── css/
-│   └── style.css           ← All museum exhibit styles. CSS custom properties for palette, typography, spacing. Responsive grid.
-├── js/
-│   └── main.js             ← PandaTracker app object. Phase 1: init + fact bubble show/close. Future phases add map, timeline, data modules here.
-├── data/
-│   └── schema.json         ← Dataset schema definition. Documents all mandatory tracking fields. No actual panda data yet (Phase 3).
-├── assets/                  ← Empty. Future: panda illustrations, map marker icons, vintage textures.
-└── docs/
-    └── README.md            ← This file.
-```
-
-### Component Slots (Placeholder → Future Phase)
-
-| Placeholder Location | HTML Element | CSS Class | Filled In Phase |
-|---|---|---|---|
-| Sidebar: Era Navigator | `<div class="sidebar__placeholder">` | `.sidebar__placeholder` | Phase 2 |
-| Sidebar: Country Index | `<div class="sidebar__placeholder">` | `.sidebar__placeholder` | Phase 3 |
-| Sidebar: Recall Categories | `<div class="sidebar__placeholder">` | `.sidebar__placeholder` | Phase 4 |
-| Interactive World Map | `<div class="map-container__placeholder">` | `.map-container__placeholder` | Phase 3 |
-| Historical Timeline | `<div class="timeline-container__placeholder">` | `.timeline-container__placeholder` | Phase 2 |
-| Fact Bubble Content | `<div id="fact-bubble">` | `.fact-bubble` | Phase 4 (dynamic) |
-
----
-
-## Data Logic — Schema Defined (No Data Yet)
-
-Phase 1 defines the **schema** in `data/schema.json` so future phases know exactly what fields each country/panda record must contain:
-
-| Field Group | Fields | Purpose |
+| Layer | Directory | Responsibility |
 |---|---|---|
-| **Dates** | `loan_start_date`, `lease_end_date`, `physical_return_date` | Track the full lifecycle of each panda loan |
-| **Names** | `pair_names`, `cubs[].cub_name`, `cubs[].repatriation_date` | Identify individual pandas and cub repatriation |
-| **Loan Reason** | `official_loan_reason` | Cultural / Conservation / Diplomatic Thaw |
-| **Recall Reason** | `recall_reason` | Lease Expiry / Wild Panda Conservation Policy / Bilateral Political Tension / Zoo Funding Failure |
-| **Context** | `bilateral_context` | Free-text diplomatic background (e.g. Nixon thaw, trade war) |
-| **Era Tag** | `era_tag` | Gift Era (1957–1982) / Short Lease Era (1982–1994) / Modern Conservation Lease Era (1994–Present) |
+| **Model** | `server/models/` | SQL queries, data access, JSON parsing. No HTTP knowledge. |
+| **View** | N/A (SPA frontend) | Vue 3 handles all rendering. Express is API-only. |
+| **Controller** | `server/controllers/` | HTTP request/response logic. Calls models, never writes SQL. |
+| **Routes** | `server/routes/` | URL → controller mapping. Thin, declarative. |
+
+**Why this matters for portfolio:** Demonstrates clean separation of concerns — a core CS design principle. Each layer is independently testable and replaceable.
+
+### 2. Relational Schema Design (server/database/schema.sql)
+
+- **Foreign key with ON DELETE CASCADE** — deleting a country removes its programs automatically
+- **CHECK constraints** enforce enum validity (4 recall reasons, 3 loan purposes, 3 eras, 3 status tags)
+- **Indexes** on frequently queried columns (country_id, diplomacy_era, status_tag)
+- **Cub data as JSON array** within PandaPrograms — avoids a 3rd table for a bounded, small dataset (a deliberate denormalization trade-off, documented)
+
+**Why this matters for portfolio:** Shows understanding of relational integrity, constraint-driven validation, and pragmatic schema design decisions.
+
+### 3. REST API Design (server/routes/)
+
+```
+GET /api/health              → API status check
+GET /api/countries           → All countries
+GET /api/countries/:id       → Single country
+GET /api/pandas              → All programs (supports ?era=, ?status=, ?country_id=)
+GET /api/pandas/:id          → Single program
+```
+
+**Why this matters for portfolio:** Clean RESTful conventions. Query parameters for filtering (not separate endpoints). Consistent JSON response shape `{ count, data }`.
+
+### 4. SPA Component Architecture (client/src/)
+
+```
+App.vue (root layout)
+  ├── SiteHeader.vue          — Museum entrance marquee
+  ├── ExhibitBanner.vue       — Curatorial introduction
+  ├── Sidebar.vue             — Navigation + API health check
+  ├── MapPlaceholder.vue      — Map slot (Phase 3)
+  ├── TimelinePlaceholder.vue — Timeline slot (Phase 2)
+  ├── FactBubble.vue          — Vintage info popup with Transition
+  └── SiteFooter.vue          — Museum credit placard
+```
+
+**Why this matters for portfolio:** Demonstrates component composition, props-free phase 1 (data flows start Phase 2+), Vue `<Transition>` for museum "unveil" effect.
+
+### 5. API Service Layer (client/src/services/api.js)
+
+All fetch calls centralized in one module. Components never call fetch() directly.
+
+**Why this matters for portfolio:** Shows understanding of abstraction layers — swapping the backend or adding auth headers requires changes in exactly one file.
 
 ---
 
-## Panda Diplomacy Facts Source
+## Data Pipeline Verification
 
-All historical data in this project is sourced from verified panda diplomacy records covering:
+The full data flow works end-to-end in Phase 1:
 
-- **United States:** 1972 Nixon-era gift (Ling-Ling & Hsing-Hsing) through 2024 return and post-2024 thaw (Bao Li & Qing Bao)
-- **Japan:** Multiple loan cycles, Ueno Zoo history
-- **South Korea:** Ai Bao & Le Bao at Everland Zoo
-- **United Kingdom:** Tian Tian & Yang Guang at Edinburgh Zoo
-- **France:** Yuan Zi & Huan Huan at Beauval Zoo
-- **Austria:** Yang Yang & Long Hui at Schönbrunn Zoo
-- **Other EU nations** as applicable
+```
+SQLite file (panda_diplomacy.db)
+  → better-sqlite3 (synchronous driver)
+    → PandaProgram model (SQL + JSON parse)
+      → pandaController (HTTP response shaping)
+        → Express route (/api/pandas)
+          → Vite proxy (/api → localhost:3001)
+            → api.js service (fetch wrapper)
+              → Sidebar.vue (health check uses it)
+```
 
-Cross-referenced against: Chinese National Forestry and Grassland Administration announcements, host zoo press releases, bilateral diplomatic statements, and reputable journalism.
+Test it: start both servers, visit `http://localhost:3001/api/pandas` — you'll see all 12 programs with joined country data.
 
 ---
 
-## Museum UX Design Notes
+## Seeded Data Summary
 
-### Visual Identity Established in Phase 1
+### Countries (9)
 
-- **Palette:** Muted earth/forest tones — bamboo greens, parchment, aged paper, gold-leaf accents, burnt sienna highlights
-- **Typography:** Playfair Display (headings), Lora (body), Source Serif 4 (placard text) — all serif, all museum-appropriate
-- **Layout:** CSS Grid — fixed sidebar (280px) + fluid main area
-- **Fact Bubbles:** Fixed-position vintage popup with fade-in animation, close button
-- **Responsive:** Collapses to single-column below 900px
+| # | Country | ISO | Programs |
+|---|---|---|---|
+| 1 | United States | US | 3 (1972 gift, 2000 lease, 2024 thaw) |
+| 2 | Japan | JP | 2 (1972 gift, 2011 lease) |
+| 3 | United Kingdom | GB | 1 (2011 lease, returned 2023) |
+| 4 | France | FR | 1 (2012 lease, active) |
+| 5 | Germany | DE | 1 (2017 lease, active) |
+| 6 | South Korea | KR | 1 (2016 lease, active) |
+| 7 | Austria | AT | 1 (2003 lease, active) |
+| 8 | Russia (USSR) | RU | 1 (1957 gift — first ever) |
+| 9 | Mexico | MX | 1 (1975 gift, Xin Xin still there) |
+
+### Panda Programs (12)
+
+Full diplomatic context and bilateral notes for each program. Recall reasons populated where applicable (e.g. US 2023 return = "Political Tension", UK 2023 = "Political Tension").
+
+---
+
+## Component Slot Map (Placeholder → Future Phase)
+
+| Component | Current State | Replaced In Phase |
+|---|---|---|
+| `Sidebar.vue` — Era Navigator | Placeholder slot | Phase 2 |
+| `Sidebar.vue` — Country Index | Placeholder slot | Phase 3 |
+| `Sidebar.vue` — Recall Categories | Placeholder slot | Phase 4 |
+| `MapPlaceholder.vue` | Static placeholder | Phase 3 (becomes `MuseumMap.vue`) |
+| `TimelinePlaceholder.vue` | Static placeholder | Phase 2 (becomes `EraTimeline.vue`) |
+| `FactBubble.vue` | Static fact text | Phase 4 (dynamic content via props) |
 
 ---
 
 ## Edit Guide
 
+### To add a new API endpoint:
+1. Add a method in the relevant **model** (`models/PandaProgram.js` or `models/Country.js`)
+2. Add a handler method in the corresponding **controller** (`controllers/pandaController.js`)
+3. Add a route mapping in the **route** file (`routes/pandas.js`)
+4. Add a fetch function in `client/src/services/api.js`
+5. Call it from the Vue component that needs the data
+
 ### To modify the museum palette:
-Edit CSS custom properties in `css/style.css` → `:root` block. All color references use `var(--name)` so changing a property updates the entire site.
+Edit `client/tailwind.config.js` → `theme.extend.colors` and `theme.extend.fontFamily`. All Tailwind classes reference these tokens.
 
-### To add a new placeholder section:
-1. Add the HTML block in `index.html` inside the appropriate container
-2. Add the CSS class in `css/style.css` following `.sidebar__placeholder` pattern
-3. Document it in the Component Slots table above
+### To add a new Vue component:
+1. Create `client/src/components/ComponentName.vue`
+2. Import and register it in `client/src/App.vue` (or a parent component)
+3. Add it to the template
 
-### To add JavaScript behavior:
-Extend the `PandaTracker` object in `js/main.js`. Create a new method (e.g. `_initTimeline()`) and call it from `init()`.
+### To reset the database:
+```bash
+cd server
+npm run seed   # Removes old DB and creates fresh seeded copy
+```
 
 ---
 
@@ -118,18 +163,27 @@ Extend the `PandaTracker` object in `js/main.js`. Create a new method (e.g. `_in
 
 ## Future Expansion Notes
 
-- **Phase 2:** Timeline module will replace `.timeline-container__placeholder` with an interactive horizontal/vertical era timeline. Sidebar "Era Navigator" becomes clickable.
-- **Phase 3:** Leaflet world map replaces `.map-container__placeholder`. Country hotspots rendered from `data/pandas.json`. Sidebar "Country Index" populated.
-- **Phase 4:** Fact bubbles become dynamic (sourced from dataset, appear on country click). Recall category filter panel activates in sidebar.
-- **Phase 5+:** Chart.js statistics panel, search functionality, era comparison views.
+- **Phase 2:** `TimelinePlaceholder.vue` → `EraTimeline.vue` — interactive vertical timeline with era markers, synced with map. Sidebar "Era Navigator" becomes clickable.
+- **Phase 3:** `MapPlaceholder.vue` → `MuseumMap.vue` — Leaflet world map with clickable country hotspots, color-coded by panda status (Active=green, Returned=amber, Recalled=red). Country data fetched from API.
+- **Phase 4:** Fact bubbles become dynamic (content from dataset, triggered by country click). Sidebar recall category filter panel activates.
+- **Phase 5:** Chart.js statistics panel — era distribution, recall reason breakdown, diplomatic context clusters.
 
 ---
 
 ## Quick Launch Recap
 
-1. Open your file browser and navigate to your Desktop
-2. Open the `panda-project` folder
-3. Double-click `index.html` — it opens in your default browser
-4. You should see the museum-styled skeleton with green header, sidebar placeholders, and a "Did You Know?" fact bubble that fades in after ~1 second
+```bash
+# First time setup (installs deps + seeds DB):
+cd ~/Desktop/panda-project
+bash setup.sh          # or setup.bat on Windows
 
-> **Alternative:** In a terminal at `~/Desktop/panda-project`, run `open index.html` (macOS) or `xdg-open index.html` (Linux/WSL) or `start index.html` (Windows Command Prompt).
+# Every time after:
+# Terminal 1:
+cd ~/Desktop/panda-project/server && npm run dev
+
+# Terminal 2:
+cd ~/Desktop/panda-project/client && npm run dev
+
+# Open in browser:
+# http://localhost:5173
+```
