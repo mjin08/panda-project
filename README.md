@@ -2,7 +2,7 @@
 
 **A Full-Stack Digital Museum Exhibit — Interactive Panda Loan Tracking Across the World**
 
-[![Stack](https://img.shields.io/badge/Stack-Vue_3_+Express_+SQLite-c9a84c)]() [![Phase](https://img.shields.io/badge/Phase-1_Skeleton-6b8f71)]() [![License](https://img.shields.io/badge/Portfolio_Project-2026-2d4a3e)]()
+[![Stack](https://img.shields.io/badge/Stack-Vue_3_+Express_+SQLite-c9a84c)]() [![Phase](https://img.shields.io/badge/Phase-2_Backend_Complete-6b8f71)]() [![License](https://img.shields.io/badge/Portfolio_Project-2026-2d4a3e)]()
 
 ---
 
@@ -55,7 +55,8 @@ panda-project/
 │
 ├── server/                      ← Express REST API (MVC)
 │   ├── package.json
-│   ├── .env                     ← Port, DB path, CORS config
+│   ├── .env.example             ← Environment template (copy to .env)
+│   ├── .env                     ← Port, DB path, CORS config (gitignored)
 │   ├── index.js                 ← Server entry point
 │   ├── database/
 │   │   ├── schema.sql           ← DDL: countries + panda_programs tables
@@ -93,7 +94,8 @@ panda-project/
 │           └── SiteFooter.vue
 │
 └── docs/
-    └── README.md                ← Phase 1 Module README
+    ├── README.md                ← Phase 1 Module README
+    └── phase2-backend.md        ← Phase 2 Backend Database README
 ```
 
 ---
@@ -137,8 +139,9 @@ panda-project/
 
 | Phase | Deliverable | Status |
 |---|---|---|
-| **1** | Full-stack skeleton: Express API + SQLite seed + Vue SPA shell + museum styling + dual READMEs | ✅ Complete |
-| **2** | Timeline module: interactive vertical era timeline, sidebar era navigator, synced with map | ⬜ Pending |
+| **1** | Full-stack skeleton: Express API + Vue SPA shell + museum styling + setup scripts + READMEs | ✅ Complete |
+| **2** | Backend database: SQLite schema, models, seed data (9 countries, 12 programs), REST API endpoints for countries | ✅ Complete |
+| **3** | World map: Leaflet map with clickable country hotspots, color-coded by status, data-driven from API | ⬜ Pending |
 | **3** | World map: Leaflet map with clickable country hotspots, color-coded by status, data-driven from API | ⬜ Pending |
 | **4** | Fact bubbles + filters: dynamic info popups on country click, 4-category recall filter panel | ⬜ Pending |
 | **5** | Statistics panel: Chart.js visualizations (loans by era, recall breakdown, context clusters) | ⬜ Pending |
@@ -245,7 +248,8 @@ Cross-referenced against: Chinese National Forestry and Grassland Administration
 
 | Phase | Date | Changes |
 |---|---|---|
-| 1 | 2026-06-15 | Full-stack skeleton: Express MVC API, SQLite schema + seed (9 countries, 12 programs), Vue 3 SPA shell with 7 components, Tailwind museum palette, API health check, dual READMEs, setup scripts |
+| 1 | 2026-06-15 | Full-stack skeleton: Express MVC API, Vue 3 SPA shell with 7 components, Tailwind museum palette, API health check, dual READMEs, setup scripts |
+| 2 | 2026-06-16 | Backend database: SQLite schema (countries + panda_programs with FK/CHECK/indexes), model files (Country, PandaProgram, db), seed script (9 countries, 12 programs), REST routes + controllers, Phase 2 Backend README |
 
 ---
 
