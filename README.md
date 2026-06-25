@@ -2,7 +2,7 @@
 
 **A Full-Stack Digital Museum Exhibit — Interactive Panda Loan Tracking Across the World**
 
-[![Stack](https://img.shields.io/badge/Stack-Vue_3_+Express_+SQLite-c9a84c)]() [![Phase](https://img.shields.io/badge/Phase-2_Backend_Complete-6b8f71)]() [![License](https://img.shields.io/badge/Portfolio_Project-2026-2d4a3e)]()
+[![Stack](https://img.shields.io/badge/Stack-Vue_3_+Express_+SQLite-c9a84c)]() [![Phase](https://img.shields.io/badge/Phase-3_Frontend_Complete-6b8f71)]() [![License](https://img.shields.io/badge/Portfolio_Project-2026-2d4a3e)]()
 
 ---
 
@@ -83,11 +83,15 @@ panda-project/
 │       ├── style.css            ← Tailwind layers + museum components
 │       ├── App.vue              ← Root layout component
 │       ├── services/
-│       │   └── api.js           ← Centralized fetch wrapper
+│       │   └── api.js           ← Axios API client (baseURL: /api, interceptors)
 │       └── components/
 │           ├── SiteHeader.vue
 │           ├── ExhibitBanner.vue
-│           ├── Sidebar.vue       ← Includes live API health check
+│           ├── Sidebar.vue       ← Legacy (deprecated — see TimelineSidebar)
+│           ├── TimelineSidebar.vue ← Era markers + API health check
+│           ├── MapContainer.vue  ← Leaflet map mount point
+│           ├── CountryInfoModal.vue ← Museum info bubble modal
+│           ├── FilterBar.vue     ← Era/Status/Recall filter controls
 │           ├── MapPlaceholder.vue
 │           ├── TimelinePlaceholder.vue
 │           ├── FactBubble.vue
@@ -95,7 +99,8 @@ panda-project/
 │
 └── docs/
     ├── README.md                ← Phase 1 Module README
-    └── phase2-backend.md        ← Phase 2 Backend Database README
+    ├── phase2-backend.md        ← Phase 2 Backend Database README
+    └── phase3-frontend.md       ← Phase 3 Frontend Components README
 ```
 
 ---
@@ -141,7 +146,8 @@ panda-project/
 |---|---|---|
 | **1** | Full-stack skeleton: Express API + Vue SPA shell + museum styling + setup scripts + READMEs | ✅ Complete |
 | **2** | Backend database: SQLite schema, models, seed data (9 countries, 12 programs), REST API endpoints for countries | ✅ Complete |
-| **3** | World map: Leaflet map with clickable country hotspots, color-coded by status, data-driven from API | ⬜ Pending |
+| **3** | Frontend base: Vue component architecture (MapContainer, TimelineSidebar, CountryInfoModal, FilterBar), Axios API client, museum layout | ✅ Complete |
+| **4** | World map: Leaflet map with clickable country hotspots, color-coded by status, data-driven from API | ⬜ Pending |
 | **3** | World map: Leaflet map with clickable country hotspots, color-coded by status, data-driven from API | ⬜ Pending |
 | **4** | Fact bubbles + filters: dynamic info popups on country click, 4-category recall filter panel | ⬜ Pending |
 | **5** | Statistics panel: Chart.js visualizations (loans by era, recall breakdown, context clusters) | ⬜ Pending |
@@ -250,6 +256,7 @@ Cross-referenced against: Chinese National Forestry and Grassland Administration
 |---|---|---|
 | 1 | 2026-06-15 | Full-stack skeleton: Express MVC API, Vue 3 SPA shell with 7 components, Tailwind museum palette, API health check, dual READMEs, setup scripts |
 | 2 | 2026-06-16 | Backend database: SQLite schema (countries + panda_programs with FK/CHECK/indexes), model files (Country, PandaProgram, db), seed script (9 countries, 12 programs), REST routes + controllers, Phase 2 Backend README |
+| 3 | 2026-06-16 | Frontend components: MapContainer, TimelineSidebar, CountryInfoModal, FilterBar stubs; Axios API client (replaces fetch); museum layout with filter bar + modal state; Phase 3 Frontend README |
 
 ---
 
